@@ -1,0 +1,33 @@
+1. Sobre Observables y Asincronía:
+    a. ¿Por qué las peticiones HTTP en Angular devuelven un Observable en lugar
+    de la data directa? ¿Qué diferencia hay frente a una Promise?
+
+    Las peticiones HTTP en Angular devuelven un observable en lugar de data directa primero por el 
+    principio asincrónico. Esto significa que la respuesta del servicio que se esté consultando no llega instantaneamente.
+    Si devolviera la data de forma directa, entonces el hilo principal se congela bloquea la UI. Por eso es mejor enviar
+    un objeto que representa la futura respuesta, asi que cuando el código llega, es que el código reacciona. 
+
+    Es diferente a una Promise porque la promise solo se emite una vez mientras que el observable puede
+    ser emitido varias veces. La promise no es cancelable mientras que el observable se puede unsusbcribe.
+    Normalmente el código con Promise puede ser más largo y complejo que usar un Observable. 
+
+
+
+2. Sobre el Patrón Maestro-Detalle:
+    b. ¿Por qué se usa @Input() para pasar la ciudad a CityDetailComponent en
+    lugar de volver a hacer un GET a /api/cities/{id}?
+
+    Si volvemos a hacer un GET a api cities id, se vuelve un request redundante ya que ya contamos con el objeto de City en memoria.
+    Al usar un Input lo que hacemos es usar el decorador para pasar info de un componente padre a un componente hijo. Esto
+    se usa para que el city-detail no tenga que volver a hacer el request que ya hizo su componente padre, lo que lo hace
+    más eficiente, es más consistente y es más rápido.  
+
+
+    c. Observe que en la respuesta de GET /api/cities, el campo country ya
+    viene como objeto anidado (no solo el countryId). ¿Qué ventaja de diseño
+    tiene esta decisión del backend para el frontend?
+    
+    Esto es mejor ya que con un solo request se obtiene toda la información del país necesaria. Ya que si
+    solo retornara el id, luego tendríamos que realizar otro request para buscar el nombre del país asociado a ese id,
+    lo que resulta ser ineficiente. Es decir que el backend ya hace la combinación de los datos de una sola vez para
+    facilidad del frontend de mostrar los datos.
